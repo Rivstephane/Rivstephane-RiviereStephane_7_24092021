@@ -1,54 +1,46 @@
 const db = require('../models/index');
-const fs = require('fs'); //      donne accès aux différentes opérations lié au système de fichier
 const xss = require('xss');
 
-//      test
-const userId = "1";  //(req.body.userId)
-const title = "test2";  //(req.body.title)
-const postId = "5";  //(req.body.postId)
-const content = "je suis la";  //(req.body.content)
-
-exports.createMessage = (req, res, next) => {
+exports.createMessage = (req, res, next) => { 
+  console.log(req.body)
   const message = {
-    userId: userId,
-    title : title,
-    postId : postId,
-    content : content
+    userid: xss(req.body.userid),
+    postid : xss(req.body.postid),
+    username: xss(req.body.username),
+    content : xss(req.body.content)
   };
+  console.log(message)
     db.message.create(message)
-    .then(data => {res.status(201).json({ message: 'message créé !' })})
-    .catch(error => res.status(400).json({ message: 'message non crée !', error }));
-  };
+    .then(data => {
+      console.log("1")
+      res.status(201).json({ message: 'message créé !' })})
+    .catch(error => {
+      console.log("2")
+      res.status(400).json({ message: 'message non crée !', error })});
+    };
 
 exports.deleteMessage = (req, res, next) => {
+  console.log(req.body)
+  const message = xss(req.body.id);
+  console.log(message)
   db.message.findOne({ 
     attributes: ['id'], 
-    where : {id : "3" } 
+    where : {id : message } 
   }) // on trouve le fichier avec son id
   .then(message => {
     message.destroy({ 
-      id: "3" //req.params.id
+      id: message //req.params.id
     })
     // On passe un objet (id) correspondant au fichier à supprimer de la base
-    .then(() => res.status(200).json({ message: 'Message supprimé !'}))
-    .catch(error => res.status(400).json({ error: 'Erreure message non suprimé !' }));
+    .then(() => {console.log("132"),res.status(200).json({ message: 'Message supprimé !'})})
+    .catch(error => {console.log("465"),res.status(400).json({ error: 'Erreure message non suprimé !' })});
   })
-  .catch(error => res.status(500).json({ error: 'Erreure sur la recherche de message !' }));
+  .catch(error => {console.log("45"),res.status(500).json({ error: 'Erreure sur la recherche de message !' })});
 };
 
 exports.getAllMessage = (req, res, next) => {
+  console.log("12")
     db.message.findAll() 
-    //methode "find()" renvoie le tableau contenant toutes les messages
-    .then(messages => res.status(200).json(messages))
-    .catch(error => res.status(400).json({ error }))
-};
-
-exports.getMessage = (req, res, next) => {
-    db.message.findAll({ 
-      attributes: ['id', 'userId',"postId", 'title', 'content','createdAt','updatedAt'],
-      where :  {postId : "1" } //{postId : JSON.parse(req.body.post.id)}
-    }) 
-    //methode "find()" renvoie le tableau contenant toutes les messages
-    .then(messages => res.status(200).json(messages))
-    .catch(error => res.status(400).json({ error }))
+    .then(messages => {console.log(messages),res.status(200).json(messages)})
+    .catch(error => {console.log("error"),res.status(400).json({ error })})
 };

@@ -14,9 +14,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Message.init({
-    userId: DataTypes.INTEGER ,
-    postId: DataTypes.INTEGER ,
-    content: DataTypes.STRING,
+    userid: DataTypes.INTEGER,
+    postid: DataTypes.INTEGER,
+    content: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Message',

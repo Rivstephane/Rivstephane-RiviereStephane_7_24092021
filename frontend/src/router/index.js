@@ -50,16 +50,6 @@ const routes = [
     name: 'findPostsByUser/:id',
     component: () => import(/* webpackChunkName: "findPostsByUser" */ '../components/posts/findPostsByUser.vue')
   },
-  {
-    path: '/CommentsByPost/:id',
-    name: 'CommentsByPost/:id',
-    component: () => import(/* webpackChunkName: "CommentsByPost" */ '../views/CommentsByPost.vue')
-  },
-  {
-    path: '/CommentsByPost',
-    name: 'CommentsByPost',
-    component: () => import(/* webpackChunkName: "CommentsByPost" */ '../views/CommentsByPost.vue')
-  }
 ]
 
 const router = createRouter({

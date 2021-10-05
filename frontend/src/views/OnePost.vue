@@ -27,25 +27,32 @@
             <button id="modifPost" type="submit" v-on:click="modify"  class="btn btn-success" >enregistrer la modification</button>
           </div>
           <div>
-            <button id="btnSup" type='submit' v-on:click="deletedPost" class="btn btn-danger" >Supprimer Post</button>
+            <button id="btnSupPost" type='submit' v-on:click="deletedPost" class="btn btn-danger" >Supprimer Post</button>
           </div>
           <div v-show="isInvalid" class="text-danger">{{errorMessage}}</div>
         </div>
       </div>
     </div>
     <div class="comments" >
-      <div class=" mx-auto card text-center w-50 "  v-show="display">
-        <div>
-          <textarea id="commentPost" placeholder="Votre commentaire..." v-model="commentPost" type="text" name="{{commentPost}}" class="form-control" rows="3" maxlength="100"/>
+      <div v-show="display">
+        <div class=" mx-auto card text-center w-50 "  >
+          <div>
+            <textarea id="commentPost" placeholder="Votre commentaire..." v-model="commentPost" type="text" name="{{commentPost}}" class="form-control" rows="3" maxlength="100"/>
+          </div>
+          <div>
+            <button @click.prevent="addComment" type="submit">Enregistre</button>
+          </div>
         </div>
-        <div>
-          <button @click.prevent="addComment" type="submit">Enregistre</button>
-        </div>
-      </div>
-      <div v-for="comment of comments" :key="comment">
-        <div class=" mx-auto card text-center w-50 ">
-          <div class="card-body">
-            <p class="card-text">{{comment.content}}</p>
+        <div v-for="comment of messages" :key="comment">
+          <div v-if="comment.postid == this.id">
+            <div class=" mx-auto card text-center w-50 ">
+              <div class="card-body">
+                <p class="card-text">{{comment.content}}</p>
+              </div>
+              <div v-show="Admin">
+                <button id="btnSupcom" type='submit' v-on:click="deletedComment(comment.id)" class="btn btn-danger" >X</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -72,10 +79,23 @@ export default {
       })
       .then(response => response.json())
       .then(response => { this.post = response })
+      
+    fetch('http://localhost:3000/api/messages',
+      {
+        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
+      })
+      .then(response => response.json())
+      .then(response => { this.messages = response })
   },
   computed:{
     connecter(){
-      if(localStorage.getItem('Admin')==true || localStorage.getItem("userId") == this.post.userid)
+      if(this.Admin || localStorage.getItem("userId") == this.post.userid)
+      {return true;}
+      else
+      {return false}
+    },
+    isAdmin(){
+      if(this.Admin)
       {return true;}
       else
       {return false}
@@ -98,6 +118,7 @@ export default {
             content: this.commentPost,
             postid: this.post.id,
             userid: this.UserId,
+            username: this.userName 
           })
         }
         fetch('http://localhost:3000/api/messages', body)
@@ -125,6 +146,26 @@ export default {
         })
       router.push({ path: 'Posts' })
     },
+    deletedComment(id){
+      const body ={
+          method: "DELETE",
+          headers: { "Content-Type": "application/json", Authorization: 'Bearer ' + localStorage.getItem('token') }, 
+          body: JSON.stringify({
+            id : id
+          })
+        }
+      fetch('http://localhost:3000/api/messages', body)
+        .then(res => {
+          if (res.ok) {
+            return res.json()
+          }
+          res.text().then(text => {
+            this.isInvalid = true
+            this.errorMessage = text.error
+          })
+        })
+      router.push({ path: 'Posts' })
+    },
     modify(){
       const body ={
           method: "PUT",
@@ -137,14 +178,14 @@ export default {
         }
         fetch('http://localhost:3000/api/posts', body)
           .then(res => res.json())
-          .then(() => alert(`Article "${this.title}" créé`))
+          .then(() => alert(`Message postée`))
     }
   }
 }
 
 </script>
 
-<style lang="scss" >
+<style lang="scss" scoped>
 .onePost{
   display: flex;
   flex-direction: column;

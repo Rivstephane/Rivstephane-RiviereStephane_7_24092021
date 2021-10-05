@@ -1,22 +1,22 @@
 {
   "development": {
-    "username": "admin",
+    "username": "P7RIVSTE",
     "password": "P7_RiviereStephane",
-    "database": "database_development_P7",
+    "database": "database_development_P7restart",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "test": {
-    "username": "root",
+    "username": "P7RIVSTE",
     "password": "P7_RiviereStephane",
-    "database": "database_test_P7",
+    "database": "database_test_P7restart",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "production": {
-    "username": "admin",
+    "username": "P7RIVSTE",
     "password": "P7_RiviereStephane",
-    "database": "database_production_P7",
+    "database": "database_production_P7restart",
     "host": "127.0.0.1",
     "dialect": "mysql"
   }

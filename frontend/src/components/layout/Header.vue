@@ -19,6 +19,7 @@
 <style lang="scss">
 .navbar {
     overflow: hidden;
+    display: flex;
     width: 100%;
     max-width: 1024px;
     height: 100px;
