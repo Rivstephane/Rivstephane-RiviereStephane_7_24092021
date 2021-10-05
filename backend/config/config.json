@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "admin",
+    "password": "P7_RiviereStephane",
+    "database": "database_development_P7",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": "P7_RiviereStephane",
+    "database": "database_test_P7",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "admin",
+    "password": "P7_RiviereStephane",
+    "database": "database_production_P7",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
