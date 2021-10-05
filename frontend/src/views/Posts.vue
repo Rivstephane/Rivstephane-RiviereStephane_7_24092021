@@ -18,9 +18,6 @@
               </router-link>
               <p class="card-text">{{post.content}}</p>
             </div>
-            <div>
-              <router-link :to='`/CommentsByPost/${post.id}`'>Commentaires</router-link>
-            </div>
           </div>
       </div>
     </div>
