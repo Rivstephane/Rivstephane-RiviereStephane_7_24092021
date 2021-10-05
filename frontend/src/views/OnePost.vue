@@ -1,5 +1,5 @@
 <template>
-<!-- post selectionné avec modif ou sup si util est auteur du post -->
+<!-- post selectionné avec modif ou sup si util est auteur du post ou admin -->
   <div class="onePost">
     <div class="post">
       <div class=" mx-auto card text-center w-50 ">
@@ -33,6 +33,7 @@
         </div>
       </div>
     </div>
+      <!-- commentaire du post -->
     <div class="comments" >
       <div v-show="display">
         <div class=" mx-auto card text-center w-50 "  >
@@ -49,7 +50,7 @@
               <div class="card-body">
                 <p class="card-text">{{comment.content}}</p>
               </div>
-              <div v-show="Admin">
+              <div v-show="Admin==true">
                 <button id="btnSupcom" type='submit' v-on:click="deletedComment(comment.id)" class="btn btn-danger" >X</button>
               </div>
             </div>
@@ -89,7 +90,7 @@ export default {
   },
   computed:{
     connecter(){
-      if(this.Admin || localStorage.getItem("userId") == this.post.userid)
+      if(this.Admin==true || this.UserId == this.post.userid)
       {return true;}
       else
       {return false}
