@@ -1,86 +1,75 @@
 <template>
     <div class="container">
-        <div class=" mx-auto card text-center w-50 ">
-          <div class="card-header"> publié le: {{formatedDate}} par {{post}} </div>
-          <div class="card-body">
-            <router-link :to='`/OnePost/${id}`'>
-            <h2 class="card-title">{{title}}</h2>
-            </router-link>
-            <p class="card-text">{{content}}</p>
+      <div v-for="post of posts" :key="post">
+          <div class=" mx-auto card text-center">
+            <router-link :to='`/OnePost/${post.id}`'>
+              <div class="card-header">
+                <h2 class="card-title">{{post.title}}</h2>
+              </div>
+              <div class="card-body">
+                <p> publié le: {{((((post.createdAt.split("T",1))[0]).split("-")).reverse())[0]}} {{((((post.createdAt.split("T",1))[0]).split("-")).reverse())[1]}} {{((((post.createdAt.split("T",1))[0]).split("-")).reverse())[2]}} par {{post.username}} 
+                </p>
+                <p class="card-text">{{post.content}}</p>
+              </div>
+            </router-link>  
           </div>
-          <div>
-            <router-link :to='`/CommentsByPost/${id}`'>Commentaires</router-link>
-          </div>
-        </div>
+      </div>
     </div>
 </template>
 
 <script>
+import router from '../../router'
 export default {
-  props: {
-    id: {
-      type: Number,
-      required: true
-    },
-    userid: {
-      type: Number,
-      required: true
-    },
-    title: {
-      type: String,
-      required: true
-    },
-    content: {
-      type: String,
-      required: true
-    },
-    username: {
-      type: String,
-      required: true
-    },
-    createdAt: {
-      type: Date,
-      required: true
-    }
-  },
-  computed: {
-    // conversion date de publication
-    formatedDate () {
-      const createdAt = new Date(this.createdAt)
-      return `${createdAt.getDate()}/${createdAt.getMonth()}/${createdAt.getFullYear()}`
+  data () {
+    return {
+      posts: [],
     }
   },
   created () {
-    fetch(`http://localhost:3000/api/users/${this.id}`,
-      {
-        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
-      })
-      .then(response => response.json())
-      .then(response => { this.user = response })
-  },
+    if (localStorage.getItem('userName')) {
+      fetch('http://localhost:3000/api/posts',
+        {
+          headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
+        })
+        .then(response => response.json())
+        .then(response => { this.posts = response.reverse() })
+    } else {
+      router.push({ path: '/' })
+    }
+  }
 }
 </script>
 
 <style lang="scss" >
-.card{
+.container{
+  &.btn{
+    background-color:white;
+    border: 3px solid #0b1c39
+  }
+  & .card{
+    width:80%;
     margin-top:20px;
     padding-top: 10px;
     padding-bottom: 10px;
     background-color: rgba(255, 215, 215, 0.1);
     border-radius: 15px;
     box-shadow: 3px 3px 1px #ffd7d7;
-
-    .card-header{
+    & .card-header{
       background-color: #ffd7d7
     }
-    a{
-    color: #fd2d01 ;
-    }
-
-    h2{
-    color: #fd2d01 ;
+    & h2{
+    color: #0b1c39 ;
     font-size: 1.2em;
     }
+  }
+  a{
+    text-decoration-line: none;
+    color: #0b1c39;
+  }
+  @media only screen and (max-width: 700px){
+    .card{
+      width: 100%;
+    }
+  }
 }
-
 </style>

@@ -3,9 +3,12 @@
   <div class="onePost">
     <div class="post">
       <div class=" mx-auto card text-center">
-        <div class="card-header"> publié le: par {{post.username}} </div>
-        <div class="card-body">
+        <div class="card-header">
           <h2 class="card-title">{{post.title}}</h2>
+        </div>
+        <div class="card-body">
+          <p> publié le: {{((((post.createdAt.split("T",1))[0]).split("-")).reverse())[0]}} {{((((post.createdAt.split("T",1))[0]).split("-")).reverse())[1]}} {{((((post.createdAt.split("T",1))[0]).split("-")).reverse())[2]}} par {{post.username}} 
+          </p>
           <p class="card-text">{{post.content}}</p>
         </div>
         <div>
@@ -124,8 +127,8 @@ export default {
         }
         fetch('http://localhost:3000/api/messages', body)
           .then(res => res.json())
-          .then(() => alert(`Article "${this.title}" créé`))
-      router.go()
+          .then(() => alert(`Message édité`))
+          router.push({ path: '/'})
     },
     deletedPost(){
       const body ={
@@ -145,7 +148,7 @@ export default {
             this.errorMessage = text.error
           })
         })
-      router.push({ path: 'Posts' })
+      router.push({ path: '/' })
     },
     deletedComment(id){
       const body ={
@@ -165,7 +168,7 @@ export default {
             this.errorMessage = text.error
           })
         })
-      router.push({ path: 'Posts' })
+      router.push({ path: '/' })
     },
     modify(){
       const body ={
@@ -179,7 +182,7 @@ export default {
         }
         fetch('http://localhost:3000/api/posts', body)
           .then(res => res.json())
-          .then(() => alert(`Message postée`))
+          .then(() => alert(`Message rédité`))
     }
   }
 }
@@ -205,10 +208,6 @@ export default {
     }
     a{
     color: #fd2d01 ;
-    }
-    h2{
-    color: #fd2d01 ;
-    font-size: 1.2em;
     }
     .admin{
       div{
