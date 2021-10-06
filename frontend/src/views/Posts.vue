@@ -11,7 +11,7 @@
     <div class="container">
       <div v-for="post of posts" :key="post">
           <div class=" mx-auto card text-center w-50 ">
-            <div class="card-header"> publié le: {{post.createdAt}} par {{post.username}} </div>
+            <div class="card-header"> publié le: {{((((post.createdAt.split("T",1))[0]).split("-")).reverse())[0]}} {{((((post.createdAt.split("T",1))[0]).split("-")).reverse())[1]}} {{((((post.createdAt.split("T",1))[0]).split("-")).reverse())[2]}} par {{post.username}} </div>
             <div class="card-body">
               <router-link :to='`/OnePost/${post.id}`'>
               <h2 class="card-title">{{post.title}}</h2>
@@ -34,7 +34,8 @@ export default {
   data () {
     return {
       posts: [],
-      open: false
+      open: false,
+      date:0
     }
   },
   computed:{
@@ -54,7 +55,7 @@ export default {
           headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
         })
         .then(response => response.json())
-        .then(response => { this.posts = response })
+        .then(response => { this.posts = response.reverse() })
     } else {
       router.push({ path: '/' })
     }
