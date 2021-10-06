@@ -4,20 +4,24 @@
       <img alt="logo Groupomania"  src='../assets/icon-left-font-monochrome-white.png' />
     </div>
     <h1> Toutes les actualités </h1>
-    <button @click="btncreate" class="btn">Publier un article</button>
+    <button @click="btncreate" class="btn btn-outline-dark">Publier un article</button>
     <form v-show="open">
       <CreatePost></CreatePost>
     </form>
     <div class="container">
       <div v-for="post of posts" :key="post">
-          <div class=" mx-auto card text-center w-50 ">
-            <div class="card-header"> publié le: {{((((post.createdAt.split("T",1))[0]).split("-")).reverse())[0]}} {{((((post.createdAt.split("T",1))[0]).split("-")).reverse())[1]}} {{((((post.createdAt.split("T",1))[0]).split("-")).reverse())[2]}} par {{post.username}} </div>
-            <div class="card-body">
-              <router-link :to='`/OnePost/${post.id}`'>
-              <h2 class="card-title">{{post.title}}</h2>
-              </router-link>
-              <p class="card-text">{{post.content}}</p>
-            </div>
+          <div class=" mx-auto card text-center">
+            <router-link :to='`/OnePost/${post.id}`'>
+              <div class="card-header">
+                <h2 class="card-title">{{post.title}}</h2>
+                
+              </div>
+              <div class="card-body">
+                <p> publié le: {{((((post.createdAt.split("T",1))[0]).split("-")).reverse())[0]}} {{((((post.createdAt.split("T",1))[0]).split("-")).reverse())[1]}} {{((((post.createdAt.split("T",1))[0]).split("-")).reverse())[2]}} par {{post.username}} 
+                </p>
+                <p class="card-text">{{post.content}}</p>
+              </div>
+            </router-link>  
           </div>
       </div>
     </div>
@@ -71,6 +75,7 @@ export default {
     border: 3px solid #0b1c39
   }
   & .card{
+    width:80%;
     margin-top:20px;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -80,13 +85,19 @@ export default {
     & .card-header{
       background-color: #ffd7d7
     }
-    & a{
-    color: #fd2d01 ;
-    }
     & h2{
-    color: #fd2d01 ;
+    color: #0b1c39 ;
     font-size: 1.2em;
     }
-}
+  }
+  a{
+    text-decoration-line: none;
+    color: #0b1c39;
+  }
+  @media only screen and (max-width: 700px){
+    .card{
+      width: 100%;
+    }
+  }
 }
 </style>

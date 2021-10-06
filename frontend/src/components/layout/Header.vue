@@ -2,9 +2,11 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container">
-                <router-link to="/" class="navbar-brand">
-                    <img src="../../assets/icon-left-font.png" alt="groupomania-logo">
-                </router-link>
+                <div id="img">
+                    <router-link to="/" class="navbar-brand">
+                        <img src="../../assets/icon-left-font.png" alt="groupomania-logo">
+                    </router-link>
+                </div>
                 <router-link to="/posts">  Publications </router-link>
                 <router-link to="/Profil"> Profil  </router-link>
                 <router-link to="/deconnect" v-if="!isConnected" @v-on:click="logout()" >Se déconnecter</router-link>
@@ -38,6 +40,13 @@
     }
     a:hover {
         color: #FD2D01;
+    }
+    @media only screen and (max-width: 550px){        
+        height: auto;
+        #img{
+            height: 100px;
+        }
+
     }
 }
 </style>

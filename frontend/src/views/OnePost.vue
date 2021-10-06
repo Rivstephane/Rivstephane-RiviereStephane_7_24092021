@@ -2,18 +2,18 @@
 <!-- post selectionné avec modif ou sup si util est auteur du post ou admin -->
   <div class="onePost">
     <div class="post">
-      <div class=" mx-auto card text-center w-50 ">
+      <div class=" mx-auto card text-center">
         <div class="card-header"> publié le: par {{post.username}} </div>
         <div class="card-body">
           <h2 class="card-title">{{post.title}}</h2>
-          <p class="card-text">{{post.content}}</p>{{post.userid}}
+          <p class="card-text">{{post.content}}</p>
         </div>
         <div>
           <button id="commentPost" type="button" class="btn btn-outline-secondary" v-on:click="displayComment">Commentaires</button>
         </div>
       </div>
       <!-- modification du post -->
-      <div class=" mx-auto card text-center w-50 " v-show="connecter">
+      <div class="mx-auto card text-center" v-show="connecter">
         <div class="card-body">
           <label for="title">titre </label>
           <br/>
@@ -36,7 +36,7 @@
       <!-- commentaire du post -->
     <div class="comments" >
       <div v-show="display">
-        <div class=" mx-auto card text-center w-50 "  >
+        <div class=" mx-auto card text-center"  >
           <div>
             <textarea id="commentPost" placeholder="Votre commentaire..." v-model="commentPost" type="text" name="{{commentPost}}" class="form-control" rows="3" maxlength="100"/>
           </div>
@@ -46,12 +46,12 @@
         </div>
         <div v-for="comment of messages" :key="comment">
           <div v-if="comment.postid == this.id">
-            <div class=" mx-auto card text-center w-50 ">
+            <div class="message mx-auto card text-center">
               <div class="card-body">
                 <p class="card-text">{{comment.content}}</p>
               </div>
-              <div v-show="Admin==true">
-                <button id="btnSupcom" type='submit' v-on:click="deletedComment(comment.id)" class="btn btn-danger" >X</button>
+              <div v-if="Admin">
+                <button id="btnSupcom" type='submit' v-on:click="deletedComment(comment.id)" class="btn btn-danger btn_Comment" >X</button>
               </div>
             </div>
           </div>
@@ -192,6 +192,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   .card{
+    width:60%;
     margin-top:20px;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -209,6 +210,31 @@ export default {
     color: #fd2d01 ;
     font-size: 1.2em;
     }
+    .admin{
+      div{
+        margin: 10px;
+      }
+    }
+  }
+  @media only screen and (max-width: 900px){
+    .card{
+      width: 80%;
+    }
+  }
+  @media only screen and (max-width: 600px){
+    .card{
+      width: 95%;
+      input{
+        width: 100%;
+      }
+      .admin{
+        display: flex;
+        flex-direction: column;
+      }
+    }
+    .message{
+      flex-wrap: wrap;
+    }
   }
   #content{
     margin: auto;
@@ -219,6 +245,17 @@ export default {
     justify-content: space-around;
     align-items: center;
   }
+  .message{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 5px;
+  }
+  .btn_Comment{
+    border-radius: 360%;
+  }
+  
 }
 
 </style>
