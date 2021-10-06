@@ -45,11 +45,6 @@ const routes = [
     name: 'OnePost/:id',
     component: () => import(/* webpackChunkName: "OnePost" */ '../views/OnePost.vue')
   },
-  {
-    path: '/findPostsByUser/:id',
-    name: 'findPostsByUser/:id',
-    component: () => import(/* webpackChunkName: "findPostsByUser" */ '../components/posts/findPostsByUser.vue')
-  },
 ]
 
 const router = createRouter({
