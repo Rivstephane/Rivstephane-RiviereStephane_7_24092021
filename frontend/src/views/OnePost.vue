@@ -53,7 +53,7 @@
               <div class="card-body">
                 <p class="card-text">{{comment.content}}</p>
               </div>
-              <div v-if="Admin">
+              <div v-if="cookie.isAdmin">
                 <button id="btnSupcom" type='submit' v-on:click="deletedComment(comment.id)" class="btn btn-danger btn_Comment" >X</button>
               </div>
             </div>
@@ -77,6 +77,7 @@ export default {
     }
   },
   created () {
+    this.cookie= JSON.parse(document.cookie.split('; ').find(row => row.startsWith('user=')).split('=')[1])
     fetch(`http://localhost:3000/api/posts/${this.id}`,
       {
         headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
