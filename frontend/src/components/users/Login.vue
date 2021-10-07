@@ -53,7 +53,7 @@ export default {
           })
         })
         .then((user) => {
-          document.cookie = `user=${JSON.stringify(user)}; max-age=43200 ;pasth=/`
+          (document.cookie = `user=${JSON.stringify(user)}; max-age=43200 ;pasth=/`)
           localStorage.setItem('getConnection',('true'))
           localStorage.setItem('user', (user))
           localStorage.setItem('userName', (user.userName))

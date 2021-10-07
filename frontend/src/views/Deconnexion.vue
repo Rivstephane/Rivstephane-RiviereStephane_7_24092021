@@ -15,7 +15,6 @@
 <script>
 export default {
   created () {
-    document.cookie = 'user; max-age=0.001'
     localStorage.clear()
   }
 }

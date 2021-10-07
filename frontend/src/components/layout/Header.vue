@@ -7,8 +7,8 @@
                         <img src="../../assets/icon-left-font.png" alt="groupomania-logo">
                     </router-link>
                 </div>
-                <router-link to="/posts">  Publications </router-link>
-                <router-link to="/Profil"> Profil  </router-link>
+                <router-link to="/posts" v-if="getConnection" >  Publications </router-link>
+                <router-link to="/Profil" v-if="getConnection" > Profil  </router-link>
                 <router-link to="/deconnect" v-if="getConnection" >Se déconnecter</router-link>
             </div>
         </nav>

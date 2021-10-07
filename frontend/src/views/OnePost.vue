@@ -53,7 +53,7 @@
               <div class="card-body">
                 <p class="card-text">{{comment.content}}</p>
               </div>
-              <div v-if="cookie.isAdmin">
+              <div v-if="Admin==true">
                 <button id="btnSupcom" type='submit' v-on:click="deletedComment(comment.id)" class="btn btn-danger btn_Comment" >X</button>
               </div>
             </div>
