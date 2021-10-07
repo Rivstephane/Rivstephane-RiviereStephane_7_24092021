@@ -19,6 +19,7 @@
 
 <script>
 import router from '../../router'
+import VueJwtDecode from "vue-jwt-decode";
 export default {
   data () {
     return {
@@ -26,7 +27,9 @@ export default {
     }
   },
   created () {
-    if (localStorage.getItem('userName')) {
+    this.cookie= JSON.parse(document.cookie.split('; ').find(row => row.startsWith('user=')).split('=')[1])
+    this.Info = VueJwtDecode.decode(this.cookie.token)
+    if (this.Info.userName) {
       fetch('http://localhost:3000/api/posts',
         {
           headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }

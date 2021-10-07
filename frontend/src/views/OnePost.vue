@@ -53,7 +53,7 @@
               <div class="card-body">
                 <p class="card-text">{{comment.content}}</p>
               </div>
-              <div v-if="Admin==true">
+              <div v-show="isAdmin">
                 <button id="btnSupcom" type='submit' v-on:click="deletedComment(comment.id)" class="btn btn-danger btn_Comment" >X</button>
               </div>
             </div>
@@ -66,18 +66,21 @@
 
 <script>
 import router from '../router'
+import VueJwtDecode from "vue-jwt-decode";
 export default {
   data () {
     return {
       id: this.$route.params.id,
       post: {},
-      UserId: localStorage.getItem('userId'),
-      Admin: localStorage.getItem('Admin'),
+      token: localStorage.getItem('token'),
       display: false,
     }
   },
   created () {
     this.cookie= JSON.parse(document.cookie.split('; ').find(row => row.startsWith('user=')).split('=')[1])
+    this.Info = VueJwtDecode.decode(this.cookie.token)
+    this.UserId= this.Info.userId,
+    this.Admin= this.Info.isadmin,
     fetch(`http://localhost:3000/api/posts/${this.id}`,
       {
         headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
@@ -100,7 +103,7 @@ export default {
       {return false}
     },
     isAdmin(){
-      if(this.Admin)
+      if(this.Admin==true)
       {return true;}
       else
       {return false}

@@ -17,11 +17,21 @@
 
 <script>
 export default {
-  data () {
-    return {
-      getConnection: localStorage.getItem('getConnection'),
+    data () {
+        return {
+        Connection: localStorage.getItem('token'),
+        }
+    },
+    computed:{
+        getConnection(){
+            if(this.Connection !=null){
+                return true;
+            }
+            else{
+                return false
+            }
+        }
     }
-  },
 }
 
 </script>

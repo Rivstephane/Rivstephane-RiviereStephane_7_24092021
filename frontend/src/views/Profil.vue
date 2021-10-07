@@ -27,6 +27,7 @@
 
 <script>
 import router from '../router'
+import VueJwtDecode from "vue-jwt-decode";
 export default {
   data () {
     return {
@@ -35,7 +36,8 @@ export default {
     }
   },
   created () {
-    const id = localStorage.getItem('userId')
+    this.Info = VueJwtDecode.decode(localStorage.getItem('token'))
+    const id = this.Info.userId
     fetch(`http://localhost:3000/api/users/${id}`,
       {
         headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
@@ -52,7 +54,7 @@ export default {
           method: "DELETE",
           headers: { "Content-Type": "application/json", Authorization: 'Bearer ' + localStorage.getItem('token') }, 
           body: JSON.stringify({
-            id : localStorage.getItem('userId')
+            id : this.Info.userId
           })
         }
       fetch(`http://localhost:3000/api/users`, body)
