@@ -9,13 +9,21 @@
                 </div>
                 <router-link to="/posts">  Publications </router-link>
                 <router-link to="/Profil"> Profil  </router-link>
-                <router-link to="/deconnect" v-if="!isConnected" @v-on:click="logout()" >Se déconnecter</router-link>
+                <router-link to="/deconnect" v-if="getConnection" >Se déconnecter</router-link>
             </div>
         </nav>
     </header>
 </template>
 
 <script>
+export default {
+  data () {
+    return {
+      getConnection: localStorage.getItem('getConnection'),
+    }
+  },
+}
+
 </script>
 
 <style lang="scss">

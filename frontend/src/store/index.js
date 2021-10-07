@@ -2,17 +2,25 @@ import { createStore } from 'vuex'
 
 const store = createStore({
   state: {
+    connection : false,
     connecter : false,
     User:[],
     userName : '',
-    userId : '',
+    userId : '0',
     bio : '',
     getadmin : '',
+    token:''
   },
   getters:{
 
   },
   mutations: {
+    getConnection(state, verif){
+      if(verif)
+      {
+        state.connection =  true
+      }
+    },
     getadmin(state, isAdmin){
       state.connecter = isAdmin;
     },
@@ -22,8 +30,11 @@ const store = createStore({
     userName(state, name){
       state.name = name;
     },
+    userToken(state, token){
+      state.token = token;
+    },
     userId(state, id){
-      state.id= id;
+      state.userId = id;
     },
     bio(state, bio){
       state.bio = bio;

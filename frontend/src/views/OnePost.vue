@@ -41,7 +41,7 @@
       <div v-show="display">
         <div class=" mx-auto card text-center"  >
           <div>
-            <textarea id="commentPost" placeholder="Votre commentaire..." v-model="commentPost" type="text" name="{{commentPost}}" class="form-control" rows="3" maxlength="100"/>
+            <textarea id="commentPost" placeholder="Votre commentaire..." v-model="commentPost" type="text" name="{{commentPost}}" class="form-control" rows="3" maxlength="100"></textarea>
           </div>
           <div>
             <button @click.prevent="addComment" type="submit">Enregistre</button>
@@ -73,7 +73,7 @@ export default {
       post: {},
       UserId: localStorage.getItem('userId'),
       Admin: localStorage.getItem('Admin'),
-      display: false
+      display: false,
     }
   },
   created () {
@@ -109,26 +109,27 @@ export default {
     displayComment(){
       this.display = !this.display
     },
-    addComment: function (e) {
-      e.preventDefault()
-      if (this.descriptif === '' || this.title === '') {
-        console.log('champ requis')
+    addComment() {
+      if (this.commentPost == null || this.commentPost == '') {
+        alert("Le contenu du message n'est pas valide ou est inexistant ")
       }
-      this.userName = localStorage.getItem('userName');
-      const body ={
-          method: "POST",
-          headers: { "Content-Type": "application/json",Authorization: 'Bearer ' + localStorage.getItem('token') }, 
-          body: JSON.stringify({
-            content: this.commentPost,
-            postid: this.post.id,
-            userid: this.UserId,
-            username: this.userName 
-          })
-        }
-        fetch('http://localhost:3000/api/messages', body)
-          .then(res => res.json())
-          .then(() => alert(`Message édité`))
-          router.push({ path: '/'})
+      else{
+        this.userName = localStorage.getItem('userName');
+        const body ={
+            method: "POST",
+            headers: { "Content-Type": "application/json",Authorization: 'Bearer ' + localStorage.getItem('token') }, 
+            body: JSON.stringify({
+              content: this.commentPost,
+              postid: this.post.id,
+              userid: this.UserId,
+              username: this.userName 
+            })
+          }
+          fetch('http://localhost:3000/api/messages', body)
+            .then(res => res.json())
+            .then(() => alert(`Message édité`))
+            router.push({ path: '/'})
+      }
     },
     deletedPost(){
       const body ={
@@ -148,6 +149,7 @@ export default {
             this.errorMessage = text.error
           })
         })
+        .then(() => alert(`Post suprimer`))
       router.push({ path: '/' })
     },
     deletedComment(id){
@@ -168,21 +170,28 @@ export default {
             this.errorMessage = text.error
           })
         })
-      router.push({ path: '/' })
+        .then(() => alert(`Message suprimer`))
+        router.push({ path: '/' })
     },
     modify(){
-      const body ={
-          method: "PUT",
-          headers: { "Content-Type": "application/json",Authorization: 'Bearer ' + localStorage.getItem('token') }, 
-          body: JSON.stringify({
-            id: this.post.id,
-            content: this.content,
-            title: this.title,
-          })
-        }
-        fetch('http://localhost:3000/api/posts', body)
-          .then(res => res.json())
-          .then(() => alert(`Message rédité`))
+      if (this.content == null || this.content== ''|| this.title == null || this.title == '') {
+        alert("Le contenu du post n'est pas valide ou est inexistant ")
+      }
+      else{
+        const body ={
+            method: "PUT",
+            headers: { "Content-Type": "application/json",Authorization: 'Bearer ' + localStorage.getItem('token') }, 
+            body: JSON.stringify({
+              id: this.post.id,
+              content: this.content,
+              title: this.title,
+            })
+          }
+          fetch('http://localhost:3000/api/posts', body)
+            .then(res => res.json())
+            .then(() => alert(`Message rédité`))
+        router.push({ path: '/' })
+      }
     }
   }
 }

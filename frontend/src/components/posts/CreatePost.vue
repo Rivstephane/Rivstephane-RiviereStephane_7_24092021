@@ -26,25 +26,27 @@ export default {
   methods: {
     create: function (e) {
       e.preventDefault()
-      if (this.descriptif === '' || this.title === '') {
-        console.log('champ requis')
+      if (this.descriptif == null || this.descriptif== ''|| this.title == null || this.title== '') {
+        alert("Le contenu du post n'est pas valide ou est inexistant ")
       }
-      this.UserId = localStorage.getItem('userId');
-      this.userName = localStorage.getItem('userName');
-      const body ={
-          method: "POST",
-          headers: { "Content-Type": "application/json",Authorization: 'Bearer ' + localStorage.getItem('token') }, 
-          body: JSON.stringify({
-            descriptif: this.descriptif,
-            title: this.title,
-            UserId: this.UserId,
-            username: this.userName
-          })
-        }
-        fetch('http://localhost:3000/api/posts', body)
-          .then(res => res.json())
-          .then(() => alert(`Article "${this.title}" créé`))
-      router.go()
+      else{
+        this.UserId = localStorage.getItem('userId');
+        this.userName = localStorage.getItem('userName');
+        const body ={
+            method: "POST",
+            headers: { "Content-Type": "application/json",Authorization: 'Bearer ' + localStorage.getItem('token') }, 
+            body: JSON.stringify({
+              descriptif: this.descriptif,
+              title: this.title,
+              UserId: this.UserId,
+              username: this.userName
+            })
+          }
+          fetch('http://localhost:3000/api/posts', body)
+            .then(res => res.json())
+            .then(() => alert(`Article "${this.title}" créé`))
+        router.go()
+      }
     }
   }
 }

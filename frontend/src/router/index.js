@@ -24,11 +24,7 @@ const routes = [
   {
     path: '/Profil',
     name: 'Profil',
-    component: () => import(/* webpackChunkName: "profil" */ '../views/Profil.vue'),
-    beforeEnter: (to, from, next) => {
-      if (!localStorage.getItem('token')) next({ path: '/' })
-      else next()
-    }
+    component: () => import(/* webpackChunkName: "profil" */ '../views/Profil.vue')
   },
   {
     path: '/SignUp',
